@@ -1,6 +1,7 @@
+import 'package:calculadora_imc_flutter/pages/configuracoes_page.dart';
+import 'package:calculadora_imc_flutter/repository/configuracoes_repository.dart';
 import 'package:calculadora_imc_flutter/services/info_service.dart';
 import 'package:calculadora_imc_flutter/pages/home_page.dart';
-import 'package:calculadora_imc_flutter/services/prefs_service.dart';
 import 'package:flutter/material.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -13,23 +14,28 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
-  PrefsService prefs = PrefsService();
+  ConfiguracoesRepository configuracoesRepo = ConfiguracoesRepository();
+
   String nomeUsuario = "";
   String emailUsuario = "";
 
   @override
   void initState() {
-    carregarDados();
+    carregaDados();
     super.initState();
   }
 
-  void carregarDados() async {
-    nomeUsuario = await prefs.getNome();
-    emailUsuario = await prefs.getEmail();
+  carregaDados() async {
+    var configuracoes = await configuracoesRepo.getConfiguracoes();
+    setState(() {
+      nomeUsuario = configuracoes.nomeUsuario;
+      emailUsuario = configuracoes.emailUsuario;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    carregaDados();
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,8 +76,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   size: 64,
                 ),
               ),
-              accountName: Text(nomeUsuario),
-              accountEmail: Text(emailUsuario),
+              accountName: nomeUsuario == ""
+                  ? const Text("Nome de Usuario")
+                  : Text(nomeUsuario),
+              accountEmail: emailUsuario == ""
+                  ? const Text("E-mail")
+                  : Text(emailUsuario),
             ),
           ),
           InkWell(
@@ -90,10 +100,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 )),
             onTap: () {
               Navigator.pop(context);
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => const ListaImcPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ConfiguracoesPage()));
             },
           ),
           const Divider(),

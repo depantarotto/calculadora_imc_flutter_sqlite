@@ -1,3 +1,4 @@
+import 'package:calculadora_imc_flutter/repository/configuracoes_repository.dart';
 import 'package:calculadora_imc_flutter/services/info_service.dart';
 import 'package:calculadora_imc_flutter/models/imc_model.dart';
 import 'package:calculadora_imc_flutter/pages/lista_imc_page.dart';
@@ -25,6 +26,17 @@ class _HomePageState extends State<HomePage> {
         double.parse(_alturaController.text));
     _listaImc.adicionaImc(imcCalculado);
     return imcCalculado;
+  }
+
+  carregarDados() async {
+    var configuracoes = await ConfiguracoesRepository().getConfiguracoes();
+    _alturaController.text = configuracoes.altura.toString();
+  }
+
+  @override
+  void initState() {
+    carregarDados();
+    super.initState();
   }
 
   @override
@@ -107,6 +119,9 @@ class _HomePageState extends State<HomePage> {
                             actions: [
                               TextButton(
                                   onPressed: () {
+                                    setState(() {
+                                      carregarDados();
+                                    });
                                     Navigator.pop(context);
                                   },
                                   child: const Text("OK"))

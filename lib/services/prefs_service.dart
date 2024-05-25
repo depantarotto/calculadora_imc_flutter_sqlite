@@ -33,19 +33,19 @@ class PrefsService {
     return _getDouble(_alturaUsuario);
   }
 
-  set nome(String nome) {
+  void setNomeUsuario(String nome) {
     _setString(_nomeUsuario, nome);
   }
 
-  Future<String> getNome() {
+  Future<String> getNomeUsuario() {
     return _getString(_nomeUsuario);
   }
 
-  void setEmail(String email) {
+  void setEmailUsuario(String email) {
     _setString(_emailUsuario, email);
   }
 
-  Future<String> getEmail() {
+  Future<String> getEmailUsuario() {
     return _getString(_emailUsuario);
   }
 }

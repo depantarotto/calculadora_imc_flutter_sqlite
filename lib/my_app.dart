@@ -16,7 +16,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
+        //useMaterial3: true,
       ),
       home: const HomePage(titulo: Info.titulo),
     );
