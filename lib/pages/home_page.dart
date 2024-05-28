@@ -22,9 +22,11 @@ class _HomePageState extends State<HomePage> {
   final _listaImc = ImcRepository();
 
   ImcModel calcularIMC() {
-    var imcCalculado = ImcModel(double.parse(_pesoController.text),
-        double.parse(_alturaController.text));
-    _listaImc.adicionaImc(imcCalculado);
+    var imcCalculado = ImcModel(
+      double.parse(_pesoController.text),
+      double.parse(_alturaController.text),
+    );
+    _listaImc.salvar(imcCalculado);
     return imcCalculado;
   }
 
@@ -152,8 +154,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  ListaImcPage(listagemImc: _listaImc)));
+                              builder: (context) => const ListaImcPage()));
                     },
                     child: const Text("Mostrar Lista de IMC"),
                   ),

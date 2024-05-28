@@ -1,10 +1,28 @@
+import 'package:calculadora_imc_flutter/models/imc_model.dart';
 import 'package:calculadora_imc_flutter/repository/imc_repository.dart';
 import 'package:flutter/material.dart';
 
-class ListaImcPage extends StatelessWidget {
-  const ListaImcPage({super.key, required this.listagemImc});
+class ListaImcPage extends StatefulWidget {
+  const ListaImcPage({super.key});
 
-  final ImcRepository listagemImc;
+  @override
+  State<ListaImcPage> createState() => _ListaImcPageState();
+}
+
+class _ListaImcPageState extends State<ListaImcPage> {
+  final ImcRepository imcRepo = ImcRepository();
+  List<ImcModel> listaImc = <ImcModel>[];
+
+  @override
+  void initState() {
+    obterDados();
+    super.initState();
+  }
+
+  void obterDados() async {
+    listaImc = await imcRepo.listaImc;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +31,7 @@ class ListaImcPage extends StatelessWidget {
         title: const Text("Lista de IMCs"),
       ),
       body: ListView.builder(
-          itemCount: listagemImc.listaImc.length,
+          itemCount: listaImc.length,
           itemBuilder: (context, index) {
             return Container(
               padding: const EdgeInsets.all(24),
@@ -23,7 +41,7 @@ class ListaImcPage extends StatelessWidget {
                   Column(
                     children: [
                       const Text("Peso"),
-                      Text(listagemImc.listaImc[index].peso.toString()),
+                      Text(listaImc[index].peso.toString()),
                     ],
                   ),
                   const SizedBox(
@@ -32,7 +50,7 @@ class ListaImcPage extends StatelessWidget {
                   Column(
                     children: [
                       const Text("Altura"),
-                      Text(listagemImc.listaImc[index].altura.toString()),
+                      Text(listaImc[index].altura.toString()),
                     ],
                   ),
                   const SizedBox(
@@ -41,7 +59,7 @@ class ListaImcPage extends StatelessWidget {
                   Column(
                     children: [
                       const Text("IMC"),
-                      Text(listagemImc.listaImc[index].imc.toStringAsFixed(2)),
+                      Text(listaImc[index].imc.toStringAsFixed(2)),
                     ],
                   ),
                 ],
